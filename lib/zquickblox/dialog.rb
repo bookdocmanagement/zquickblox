@@ -3,6 +3,13 @@ require_relative "dialog/update_dialog_request"
 require_relative "dialog/get_dialogs_request"
 
 module ZQuickblox
+  def self.logger
+    @@logger ||= defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
+  end
+
+  def self.logger=(logger)
+    @@logger = logger
+  end
   module Dialog
     class << self
       def get(login, password, params=nil)
@@ -17,11 +24,26 @@ module ZQuickblox
       end
 
       def create(login, password, params)
+        ZQuickblox.logger.debug login
+        ZQuickblox.logger.debug password
+        ZQuickblox.logger.debug params
+
         dialog = Dialog.new(params)
+
+        ZQuickblox.logger.debug dialog.inspect
+
         params = dialog.build_params
+
+        ZQuickblox.logger.debug params
+
         request = ZQuickblox::Dialog::CreateDialogRequest.new(params)
+        ZQuickblox.logger.debug request.inspect
+
         run_request(login, password, request)
+
         dialog = Dialog.new(ZQuickblox::Util.symbolize_keys(request.response_body))
+
+        ZQuickblox.logger.debug dialog.inspect
         return dialog
       end
 
