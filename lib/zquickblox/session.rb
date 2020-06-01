@@ -1,11 +1,4 @@
 module ZQuickblox
-  def self.logger
-    @@logger ||= defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
-  end
-
-  def self.logger=(logger)
-    @@logger = logger
-  end
   class Session < Request
     attr_accessor :login, :password
     attr_reader :token, :session
@@ -31,7 +24,10 @@ module ZQuickblox
     end
 
     def execute
+      ZQuickblox.logger.debug 'logger session start here'
       super
+      ZQuickblox.logger.debug @response_body
+
       @session = @response_body["session"]
       @token   = @session["token"]
     end

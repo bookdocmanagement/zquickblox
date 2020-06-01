@@ -13,6 +13,9 @@ module ZQuickblox
         faraday.response :logger unless Rails.env.production?
         faraday.adapter  Faraday.default_adapter
       end
+      ZQuickblox.logger.debug 'logger connection start here'
+      ZQuickblox.logger.debug @connection
+
 
       @headers = {}
     end
@@ -34,7 +37,7 @@ module ZQuickblox
       post   if @method == :post
       put    if @method == :put
       delete if @method == :delete
-      ZQuickblox.logger.debug 'logger start here'
+      ZQuickblox.logger.debug 'logger request start here'
       ZQuickblox.logger.debug @response
       ZQuickblox.logger.debug @response.body
       ZQuickblox.logger.debug @response.status
