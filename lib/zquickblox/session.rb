@@ -14,6 +14,7 @@ module ZQuickblox
     end
 
     def initialize
+      ZQuickblox.logger.debug 'logger session initialize start here'
       super
       @uri = "/session.json"
       @method = :post
@@ -24,7 +25,7 @@ module ZQuickblox
     end
 
     def execute
-      ZQuickblox.logger.debug 'logger session start here'
+      ZQuickblox.logger.debug 'logger session execute start here'
       super
       ZQuickblox.logger.debug @response_body
 
@@ -44,6 +45,8 @@ module ZQuickblox
       @params["user[login]"] = @login if @login
       @params["user[password]"] = @password if @password
       @params["signature"] = ZQuickblox::Signature.generate_signature(@params, ZQuickblox.config.auth_secret)
+      ZQuickblox.logger.debug 'params'
+      ZQuickblox.logger.debug @params
     end
   end
 end
