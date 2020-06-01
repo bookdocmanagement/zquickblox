@@ -1,4 +1,11 @@
 module ZQuickblox
+  def self.logger
+    @@logger ||= defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
+  end
+
+  def self.logger=(logger)
+    @@logger = logger
+  end
   class Request
     API_ENDPOINT = "https://api.quickblox.com"
 
@@ -34,7 +41,10 @@ module ZQuickblox
       post   if @method == :post
       put    if @method == :put
       delete if @method == :delete
-
+      ZQuickblox.logger.debug 'logger start here'
+      ZQuickblox.logger.debug @response
+      ZQuickblox.logger.debug @response.body
+      ZQuickblox.logger.debug @response.status
       if @response.status != 404 && @response.body.length > 1
         @response_body = JSON.parse(@response.body)
       else
