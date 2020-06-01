@@ -15,7 +15,6 @@ module ZQuickblox
         session = ZQuickblox::Session.new
         session.login    = login
         session.password = password
-        ZQuickblox.logger.debug session.execute
         session.execute
         return session
       end
@@ -28,7 +27,6 @@ module ZQuickblox
     end
 
     def before_request
-      ZQuickblox.logger.debug build_params
       build_params
     end
 
