@@ -1,5 +1,5 @@
 module ZQuickblox
-  module Dialog
+  module Message
     class CreateMessageRequest < Request
       def initialize(params)
         super()
